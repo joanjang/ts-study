@@ -1,15 +1,19 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Chart from "./Chart";
 import Price from "./Price";
 
-function CoinTabRouter() {
+interface CoinProps {
+  coinId: string;
+}
+
+function CoinTabRouter({ coinId }: CoinProps) {
   return (
     <Switch>
       <Route path={`/coins/:coinId/price`}>
         <Price />
       </Route>
-      <Route path={`/coins/:coinId/chart`}>
-        <Chart />
+      <Route path={[`/coins/:coinId`, `/coins/:coinId/chart`]}>
+        <Chart coinId={coinId} />
       </Route>
     </Switch>
   );

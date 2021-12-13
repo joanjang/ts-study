@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { fetchCoins } from "./api";
@@ -65,6 +66,9 @@ function Coins() {
   const { isLoading, data } = useQuery<CoinInterface[]>("allCoins", fetchCoins);
   return (
     <Container>
+      <Helmet>
+        <title>COIN</title>
+      </Helmet>
       <Header>
         <Title>COIN</Title>
       </Header>
