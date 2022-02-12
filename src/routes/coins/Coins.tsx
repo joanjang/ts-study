@@ -4,6 +4,10 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { fetchCoins } from "./api";
 
+interface ICoinsProps {
+  toggleMode: () => void;
+}
+
 interface CoinInterface {
   id: string;
   name: string;
@@ -35,12 +39,13 @@ const Title = styled.h1`
 const ConinList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.coinsCardBgColor};
+  color: ${(props) => props.theme.textColor};
   border-radius: 1rem;
   margin-bottom: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.05rem;
+  border: 1px solid white;
 
   a {
     display: flex;
@@ -62,7 +67,7 @@ const Img = styled.img`
   margin-right: 0.7rem;
 `;
 
-function Coins() {
+function Coins({ toggleMode }: ICoinsProps) {
   const { isLoading, data } = useQuery<CoinInterface[]>("allCoins", fetchCoins);
   return (
     <Container>
@@ -71,6 +76,7 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>COIN</Title>
+        <button onClick={toggleMode}>Mode</button>
       </Header>
       <ConinList>
         {isLoading

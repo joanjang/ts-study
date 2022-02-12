@@ -5,6 +5,10 @@ import styled from "styled-components";
 import CoinTabRouter from "./CoinTabRouter";
 import { fetchCoinInfo, fetchCoinTickers } from "./api";
 
+interface ICoinProps {
+  isDarkMode: boolean;
+}
+
 interface RouteParams {
   coinId: string;
 }
@@ -89,7 +93,7 @@ const Title = styled.h1`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.coinCardBgColor};
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -122,7 +126,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.coinCardBgColor};
   padding: 7px 0px;
   border-radius: 10px;
   color: ${(props) =>
@@ -132,7 +136,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   }
 `;
 
-function Coin() {
+function Coin({ isDarkMode }: ICoinProps) {
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/coins/:coinId/price");
@@ -176,7 +180,7 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>Price:</span>
-              <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
+              <span>${tickersData?.quotes?.USD?.price?.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -198,7 +202,7 @@ function Coin() {
               <Link to={`/coins/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
-          <CoinTabRouter coinId={coinId} />
+          <CoinTabRouter coinId={coinId} isDarkMode={isDarkMode} />
         </>
       )}
     </Container>
